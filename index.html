@@ -3,402 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>英语学习 · 职场地道表达</title>
+<title>Maeve 英语学习笔记</title>
 <style>
-  :root {
-    --primary: #6366f1;
-    --primary-light: #818cf8;
-    --primary-dark: #4f46e5;
-    --accent: #10b981;
-    --accent-light: #34d399;
-    --bg: #f8fafc;
-    --bg-card: #ffffff;
-    --bg-card2: #f1f5f9;
-    --text: #1e293b;
-    --text-muted: #64748b;
-    --text-light: #94a3b8;
-    --border: #e2e8f0;
-    --shadow: 0 4px 24px rgba(99,102,241,0.08);
-    --shadow-hover: 0 8px 32px rgba(99,102,241,0.16);
-    --radius: 16px;
-    --radius-sm: 10px;
-  }
-  [data-theme="dark"] {
-    --bg: #0f172a;
-    --bg-card: #1e293b;
-    --bg-card2: #273549;
-    --text: #f1f5f9;
-    --text-muted: #94a3b8;
-    --text-light: #64748b;
-    --border: #334155;
-    --shadow: 0 4px 24px rgba(0,0,0,0.3);
-    --shadow-hover: 0 8px 32px rgba(99,102,241,0.25);
-  }
+:root {
+  --primary: #6366f1;
+  --accent: #10b981;
+  --bg: #ffffff;
+  --surface: #f8f9fa;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text2: #6b7280;
+  --red: #ef4444;
+  --yellow: #f59e0b;
+}
+[data-theme="dark"] {
+  --bg: #111827;
+  --surface: #1f2937;
+  --border: #374151;
+  --text: #f9fafb;
+  --text2: #9ca3af;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* Top bar */
+.topbar { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
+.topbar-title { font-size: 17px; font-weight: 700; color: var(--primary); }
+.theme-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 16px; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    transition: background 0.3s, color 0.3s;
-    -webkit-font-smoothing: antialiased;
-  }
+/* Tabs */
+.tabbar { display: flex; gap: 0; background: var(--surface); border-bottom: 1px solid var(--border); }
+.tab-btn { flex: 1; padding: 12px 8px; border: none; background: transparent; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text2); border-bottom: 2px solid transparent; transition: all 0.15s; }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--bg); }
 
-  /* ===== TOP NAV ===== */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    height: 56px;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-  }
-  .topbar-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--primary);
-    letter-spacing: -0.3px;
-  }
-  .topbar-actions { display: flex; gap: 8px; align-items: center; }
-  .theme-btn {
-    background: var(--bg-card2);
-    border: none;
-    border-radius: 8px;
-    width: 36px; height: 36px;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-  }
-  .theme-btn:hover { background: var(--border); }
+/* Pages */
+.page { display: none; max-width: 680px; margin: 0 auto; padding: 16px; }
+.page.active { display: block; }
 
-  /* ===== TAB BAR ===== */
-  .tabbar {
-    display: flex;
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px;
-    gap: 4px;
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 14px 8px;
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .tab-btn.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-  }
+/* Archive */
+.date-group { margin-bottom: 20px; }
+.date-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.date-badge { background: var(--primary); color: white; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.date-topic { font-size: 13px; color: var(--text2); flex: 1; }
+.date-line { flex: 1; height: 1px; background: var(--border); }
+.expr-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+.expr-basic { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.expr-basic-icon { font-size: 13px; color: var(--red); }
+.expr-basic-text { font-size: 14px; color: var(--text2); }
+.expr-native { font-size: 15px; font-weight: 500; line-height: 1.5; margin-bottom: 8px; }
+.expr-native em { color: var(--primary); font-style: normal; font-weight: 700; }
+.vocab-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.vocab-tag { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-size: 12px; }
+.vocab-tag strong { color: var(--accent); }
+.gem-card { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border-radius: 12px; padding: 16px; margin-top: 4px; display: flex; gap: 12px; align-items: flex-start; }
+.gem-icon { font-size: 22px; flex-shrink: 0; }
+.gem-label { font-size: 11px; opacity: 0.8; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
+.gem-text { font-size: 15px; font-weight: 600; line-height: 1.5; font-style: italic; }
 
-  /* ===== PAGES ===== */
-  .page { display: none; padding: 16px; max-width: 680px; margin: 0 auto; }
-  .page.active { display: block; }
+/* Anki */
+.anki-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.due-counter { font-size: 14px; color: var(--text2); }
+.due-count { color: var(--primary); font-weight: 700; font-size: 18px; }
+.card-num { text-align: center; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
 
-  /* ===== ARCHIVE PAGE ===== */
-  .date-group { margin-bottom: 24px; }
-  .date-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .date-badge {
-    background: var(--primary);
-    color: white;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-  }
-  .date-topic {
-    font-size: 14px;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-  .date-line { flex: 1; height: 1px; background: var(--border); }
+/* Flip card */
+.scene { perspective: 1000px; height: 320px; cursor: pointer; margin-bottom: 12px; }
+.flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+.flipper.flipped { transform: rotateY(180deg); }
+.face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+.front { background: var(--surface); border: 2px solid var(--border); }
+.back { background: linear-gradient(135deg, #f0f0ff 0%, #e8f5e9 100%); border: 2px solid var(--primary); transform: rotateY(180deg); }
+[data-theme="dark"] .back { background: linear-gradient(135deg, #1e1e3f 0%, #0f2f1f 100%); }
+.front-icon { font-size: 40px; margin-bottom: 12px; }
+.front-scenario { font-size: 13px; color: var(--text2); margin-bottom: 8px; background: var(--bg); padding: 3px 10px; border-radius: 20px; }
+.front-basic { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+.front-hint { font-size: 12px; color: var(--text2); margin-top: auto; }
+.back-label { font-size: 11px; color: var(--primary); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+.back-native { font-size: 17px; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+.back-native em { color: var(--primary); font-style: normal; font-weight: 700; }
+.back-vocab { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.back-vocab span { background: rgba(99,102,241,0.1); border-radius: 6px; padding: 3px 8px; font-size: 12px; }
+.back-vocab strong { color: var(--primary); }
 
-  .expr-card {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 16px;
-    margin-bottom: 10px;
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.2s, transform 0.15s;
-  }
-  .expr-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-1px);
-  }
-  .expr-basic {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .expr-basic-icon { font-size: 14px; color: #ef4444; }
-  .expr-basic-text {
-    font-size: 15px;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-  .expr-arrow { color: var(--primary-light); font-size: 14px; margin: 0 2px; }
-  .expr-native {
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.5;
-    margin-bottom: 10px;
-  }
-  .expr-native em {
-    font-style: normal;
-    color: var(--primary);
-    font-weight: 700;
-  }
-  .vocab-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .vocab-tag {
-    background: var(--bg-card2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 3px 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-  .vocab-tag strong { color: var(--accent); font-weight: 700; }
+.flip-hint { text-align: center; font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+.anki-actions { display: none; gap: 10px; margin-top: 4px; }
+.anki-actions.show { display: flex; }
+.anki-btn { flex: 1; padding: 14px 8px; border: none; border-radius: 12px; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 0.1s; }
+.anki-btn:active { transform: scale(0.96); }
 
-  .gem-card {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    margin-top: 8px;
-    color: white;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    box-shadow: 0 6px 20px rgba(99,102,241,0.35);
-  }
-  .gem-icon { font-size: 22px; flex-shrink: 0; }
-  .gem-label { font-size: 11px; opacity: 0.8; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
-  .gem-text { font-size: 16px; font-weight: 600; line-height: 1.5; font-style: italic; }
+/* Empty state */
+.empty { text-align: center; padding: 60px 20px; }
+.empty-icon { font-size: 56px; margin-bottom: 16px; }
+.empty-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.empty-sub { font-size: 15px; color: var(--text2); line-height: 1.6; }
 
-  /* ===== ANKI PAGE ===== */
-  .anki-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .anki-counter {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 14px;
-    font-size: 14px;
-    color: var(--text-muted);
-    box-shadow: var(--shadow);
-  }
-  .anki-counter span { color: var(--primary); font-weight: 700; font-size: 18px; }
-  .anki-progress-label {
-    font-size: 13px;
-    color: var(--text-light);
-    font-weight: 500;
-  }
-
-  .anki-scene {
-    perspective: 1200px;
-    margin: 0 auto 24px;
-    max-width: 560px;
-    height: 320px;
-  }
-  .anki-flipper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
-    cursor: pointer;
-  }
-  .anki-flipper.flipped { transform: rotateY(180deg); }
-
-  .anki-face {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 28px 24px;
-    text-align: center;
-  }
-  .anki-front {
-    background: var(--bg-card);
-  }
-  .anki-back {
-    background: linear-gradient(160deg, var(--bg-card) 60%, rgba(99,102,241,0.04) 100%);
-    transform: rotateY(180deg);
-    justify-content: flex-start;
-    align-items: flex-start;
-    text-align: left;
-    overflow-y: auto;
-  }
-
-  .anki-front-icon { font-size: 36px; margin-bottom: 12px; }
-  .anki-front-scenario {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-  .anki-front-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.4;
-  }
-  .anki-front-hint {
-    margin-top: 18px;
-    font-size: 13px;
-    color: var(--text-light);
-    display: flex; align-items: center; gap: 4px;
-  }
-
-  .anki-back-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .anki-back-label::before { content: "✅"; font-size: 14px; }
-  .anki-back-native {
-    font-size: 19px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.5;
-    margin-bottom: 14px;
-  }
-  .anki-back-native em {
-    font-style: normal;
-    color: var(--primary);
-    border-bottom: 2px solid var(--primary-light);
-    padding-bottom: 1px;
-  }
-  .anki-back-vocab { display: flex; flex-wrap: wrap; gap: 6px; }
-
-  .anki-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
-  }
-  .anki-empty-icon { font-size: 56px; margin-bottom: 16px; }
-  .anki-empty-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-  .anki-empty-sub { font-size: 15px; line-height: 1.6; }
-
-  .anki-actions {
-    display: flex;
-    gap: 10px;
-    max-width: 560px;
-    margin: 0 auto;
-  }
-  .anki-btn {
-    flex: 1;
-    padding: 14px 8px;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.18s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .anki-btn:active { transform: scale(0.97); }
-  .btn-know {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    box-shadow: 0 4px 12px rgba(16,185,129,0.3);
-  }
-  .btn-fuzzy {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-    box-shadow: 0 4px 12px rgba(245,158,11,0.3);
-  }
-  .btn-unknown {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    box-shadow: 0 4px 12px rgba(239,68,68,0.3);
-  }
-  .anki-btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
-
-  .anki-flip-hint {
-    text-align: center;
-    margin-bottom: 14px;
-    font-size: 13px;
-    color: var(--text-light);
-  }
-
-  .anki-card-num {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-light);
-    margin-top: 14px;
-  }
-
-  /* Progress bar */
-  .progress-bar-wrap {
-    background: var(--border);
-    border-radius: 4px;
-    height: 4px;
-    margin-bottom: 20px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    border-radius: 4px;
-    transition: width 0.4s ease;
-  }
-
-  @media (max-width: 480px) {
-    .anki-scene { height: 280px; }
-    .anki-front-text { font-size: 19px; }
-    .anki-back-native { font-size: 16px; }
-    .anki-btn { font-size: 13px; padding: 12px 4px; }
-    .gem-text { font-size: 14px; }
-  }
+@media (max-width: 480px) {
+  .scene { height: 280px; }
+  .front-basic { font-size: 18px; }
+  .back-native { font-size: 15px; }
+}
 </style>
 </head>
-<body data-theme="light">
-
+<body>
 <div class="topbar">
-  <div class="topbar-title">🌊 职场英语</div>
-  <div class="topbar-actions">
-    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="切换主题">🌙</button>
-  </div>
+  <div class="topbar-title">🌊 Maeve 英语学习</div>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
 </div>
 
 <div class="tabbar">
@@ -406,11 +115,11 @@
   <button class="tab-btn" id="tab-anki" onclick="switchTab('anki')">🃏 Anki 复习</button>
 </div>
 
-<!-- ========== PAGE: ARCHIVE ========== -->
+<!-- Archive Page -->
 <div class="page active" id="page-archive">
-
   <div style="height:8px"></div>
 
+  <!-- 2026-03-31 -->
   <div class="date-group">
     <div class="date-header">
       <span class="date-badge">2026-03-31</span>
@@ -418,417 +127,251 @@
       <div class="date-line"></div>
     </div>
 
-    <!-- Card 1 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">The number went up.</span>
-      </div>
-      <div class="expr-native">We saw a notable <em>uptick</em> in orders, <em>driven primarily by</em> the weekend promo.</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">数字上升时</span></div>
+      <div class="expr-native">Orders <em>picked up</em> this week, mainly <em>driven by</em> the weekend promo.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>uptick</strong> = 小幅上升</span>
-        <span class="vocab-tag"><strong>driven by</strong> = 由…驱动</span>
+        <span class="vocab-tag"><strong>picked up</strong> 回升/好转</span>
+        <span class="vocab-tag"><strong>driven by</strong> 由…驱动</span>
       </div>
     </div>
 
-    <!-- Card 2 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">The number went down.</span>
-      </div>
-      <div class="expr-native">GMV <em>softened</em> slightly <em>WoW</em>, largely due to fewer active merchants on Sunday.</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">数字下降时</span></div>
+      <div class="expr-native">GMV <em>softened</em> slightly <em>WoW</em>, mainly due to fewer active merchants on Sunday.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>softened</strong> = 走弱</span>
-        <span class="vocab-tag"><strong>WoW</strong> = week over week 环比</span>
+        <span class="vocab-tag"><strong>softened</strong> 走弱</span>
+        <span class="vocab-tag"><strong>WoW</strong> week over week 环比</span>
       </div>
     </div>
 
-    <!-- Card 3 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">We almost reached the target.</span>
-      </div>
-      <div class="expr-native">We're <em>tracking at</em> 94% of our monthly target, with 3 days remaining to <em>close the gap</em>.</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">差一点达成目标</span></div>
+      <div class="expr-native">We're <em>tracking at</em> 94% of our monthly target, with 3 days left to <em>close the gap</em>.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>tracking at</strong> = 进度在…</span>
-        <span class="vocab-tag"><strong>close the gap</strong> = 补上差距</span>
+        <span class="vocab-tag"><strong>tracking at</strong> 进度在…</span>
+        <span class="vocab-tag"><strong>close the gap</strong> 补上差距</span>
       </div>
     </div>
 
-    <!-- Card 4 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">We exceeded the target.</span>
-      </div>
-      <div class="expr-native">We <em>outperformed</em> the target by 8%, largely <em>attributed to</em> strong KA merchant activation.</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">超额完成目标</span></div>
+      <div class="expr-native">We <em>beat the target</em> by 8%, mainly thanks to strong KA merchant activation.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>outperformed</strong> = 超出</span>
-        <span class="vocab-tag"><strong>attributed to</strong> = 归因于</span>
+        <span class="vocab-tag"><strong>beat the target</strong> 超目标</span>
       </div>
     </div>
 
-    <!-- Card 5 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">Maybe it's because of the discount.</span>
-      </div>
-      <div class="expr-native">The <em>spike</em> is likely <em>attributable to</em> the <em>flash deal</em> campaign launched on Thursday.</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">分析原因（折扣/活动）</span></div>
+      <div class="expr-native">The <em>spike</em> is likely <em>driven by</em> the flash deal campaign launched on Thursday.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>spike</strong> = 突增</span>
-        <span class="vocab-tag"><strong>attributable to</strong> = 可归因于</span>
-        <span class="vocab-tag"><strong>flash deal</strong> = 限时特惠</span>
+        <span class="vocab-tag"><strong>spike</strong> 突增</span>
+        <span class="vocab-tag"><strong>flash deal</strong> 限时特惠</span>
       </div>
     </div>
 
-    <!-- Card 6 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">We don't know why it dropped.</span>
-      </div>
-      <div class="expr-native">The <em>root cause</em> is still being investigated; <em>preliminary</em> data points to a drop in merchant <em>online rate</em>.</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">原因不明</span></div>
+      <div class="expr-native">We're still investigating the <em>root cause</em>. Early data suggests a drop in merchant online rate.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>root cause</strong> = 根本原因</span>
-        <span class="vocab-tag"><strong>preliminary</strong> = 初步的</span>
-        <span class="vocab-tag"><strong>online rate</strong> = 上线率</span>
+        <span class="vocab-tag"><strong>root cause</strong> 根本原因</span>
       </div>
     </div>
 
-    <!-- Card 7 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">Let's talk about this.</span>
-      </div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">引导讨论对齐</span></div>
       <div class="expr-native">Let's <em>align on</em> the <em>action items</em> before we <em>wrap up</em>.</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>align on</strong> = 对齐</span>
-        <span class="vocab-tag"><strong>action items</strong> = 待办事项</span>
-        <span class="vocab-tag"><strong>wrap up</strong> = 结束会议</span>
+        <span class="vocab-tag"><strong>align on</strong> 对齐</span>
+        <span class="vocab-tag"><strong>action items</strong> 待办事项</span>
+        <span class="vocab-tag"><strong>wrap up</strong> 结束会议</span>
       </div>
     </div>
 
-    <!-- Card 8 -->
     <div class="expr-card">
-      <div class="expr-basic">
-        <span class="expr-basic-icon">❌</span>
-        <span class="expr-basic-text">Who will do this?</span>
-      </div>
-      <div class="expr-native">Can we <em>assign a clear owner</em> for this and get it resolved by <em>EOD</em> Friday?</div>
+      <div class="expr-basic"><span class="expr-basic-icon">❌</span><span class="expr-basic-text">指定任务负责人</span></div>
+      <div class="expr-native">Can we <em>assign an owner</em> and get this resolved by <em>EOD</em> Friday?</div>
       <div class="vocab-tags">
-        <span class="vocab-tag"><strong>assign an owner</strong> = 指定负责人</span>
-        <span class="vocab-tag"><strong>EOD</strong> = end of day</span>
+        <span class="vocab-tag"><strong>assign an owner</strong> 指定负责人</span>
+        <span class="vocab-tag"><strong>EOD</strong> end of day 下班前</span>
       </div>
     </div>
 
-    <!-- Gem -->
     <div class="gem-card">
       <div class="gem-icon">💎</div>
       <div>
-        <div class="gem-label">金句 · Power Quote</div>
+        <div class="gem-label">金句</div>
         <div class="gem-text">"Let's keep this concise — what's the key takeaway and who's owning the next step?"</div>
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- ========== PAGE: ANKI ========== -->
+<!-- Anki Page -->
 <div class="page" id="page-anki">
-
   <div style="height:8px"></div>
-
   <div class="anki-header">
-    <div class="anki-counter">今日待复习：<span id="dueCount">0</span> 张</div>
-    <div class="anki-progress-label" id="progressLabel"></div>
+    <div class="due-counter">今日待复习：<span class="due-count" id="dueCount">0</span> 张</div>
+    <div style="font-size:13px;color:var(--text2)" id="progressLabel"></div>
   </div>
-
-  <div class="progress-bar-wrap">
-    <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
-  </div>
-
-  <div id="ankiContent">
-    <!-- Injected by JS -->
-  </div>
-
+  <div id="ankiContent"></div>
 </div>
 
 <script>
 // ==================== DATA ====================
 const CARDS = [
   {
-    id: "card_1",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "The number went up.",
+    id: "c1", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "数字上升时",
-    native: "We saw a notable <em>uptick</em> in orders, <em>driven primarily by</em> the weekend promo.",
-    nativePlain: "We saw a notable uptick in orders, driven primarily by the weekend promo.",
-    vocab: [
-      { word: "uptick", meaning: "小幅上升" },
-      { word: "driven by", meaning: "由…驱动" }
-    ]
+    basic: "The number went up.",
+    native: "Orders <em>picked up</em> this week, mainly <em>driven by</em> the weekend promo.",
+    vocab: [{w:"picked up",m:"回升/好转"},{w:"driven by",m:"由…驱动"}]
   },
   {
-    id: "card_2",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "The number went down.",
+    id: "c2", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "数字下降时",
-    native: "GMV <em>softened</em> slightly <em>WoW</em>, largely due to fewer active merchants on Sunday.",
-    nativePlain: "GMV softened slightly WoW, largely due to fewer active merchants on Sunday.",
-    vocab: [
-      { word: "softened", meaning: "走弱" },
-      { word: "WoW", meaning: "week over week 环比" }
-    ]
+    basic: "The number went down.",
+    native: "GMV <em>softened</em> slightly <em>WoW</em>, mainly due to fewer active merchants on Sunday.",
+    vocab: [{w:"softened",m:"走弱"},{w:"WoW",m:"week over week 环比"}]
   },
   {
-    id: "card_3",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "We almost reached the target.",
+    id: "c3", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "差一点达成目标",
-    native: "We're <em>tracking at</em> 94% of our monthly target, with 3 days remaining to <em>close the gap</em>.",
-    nativePlain: "We're tracking at 94% of our monthly target, with 3 days remaining to close the gap.",
-    vocab: [
-      { word: "tracking at", meaning: "进度在…" },
-      { word: "close the gap", meaning: "补上差距" }
-    ]
+    basic: "We almost reached the target.",
+    native: "We're <em>tracking at</em> 94% of our monthly target, with 3 days left to <em>close the gap</em>.",
+    vocab: [{w:"tracking at",m:"进度在…"},{w:"close the gap",m:"补上差距"}]
   },
   {
-    id: "card_4",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "We exceeded the target.",
+    id: "c4", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "超额完成目标",
-    native: "We <em>outperformed</em> the target by 8%, largely <em>attributed to</em> strong KA merchant activation.",
-    nativePlain: "We outperformed the target by 8%, largely attributed to strong KA merchant activation.",
-    vocab: [
-      { word: "outperformed", meaning: "超出" },
-      { word: "attributed to", meaning: "归因于" }
-    ]
+    basic: "We exceeded the target.",
+    native: "We <em>beat the target</em> by 8%, mainly thanks to strong KA merchant activation.",
+    vocab: [{w:"beat the target",m:"超目标"}]
   },
   {
-    id: "card_5",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
+    id: "c5", date: "2026-03-31", topic: "周会 & 日报",
+    scenario: "分析折扣/活动是原因",
     basic: "Maybe it's because of the discount.",
-    scenario: "分析折扣可能是原因",
-    native: "The <em>spike</em> is likely <em>attributable to</em> the <em>flash deal</em> campaign launched on Thursday.",
-    nativePlain: "The spike is likely attributable to the flash deal campaign launched on Thursday.",
-    vocab: [
-      { word: "spike", meaning: "突增" },
-      { word: "attributable to", meaning: "可归因于" },
-      { word: "flash deal", meaning: "限时特惠" }
-    ]
+    native: "The <em>spike</em> is likely <em>driven by</em> the flash deal campaign launched on Thursday.",
+    vocab: [{w:"spike",m:"突增"},{w:"flash deal",m:"限时特惠"}]
   },
   {
-    id: "card_6",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "We don't know why it dropped.",
+    id: "c6", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "原因不明的下跌",
-    native: "The <em>root cause</em> is still being investigated; <em>preliminary</em> data points to a drop in merchant <em>online rate</em>.",
-    nativePlain: "The root cause is still being investigated; preliminary data points to a drop in merchant online rate.",
-    vocab: [
-      { word: "root cause", meaning: "根本原因" },
-      { word: "preliminary", meaning: "初步的" },
-      { word: "online rate", meaning: "上线率" }
-    ]
+    basic: "We don't know why it dropped.",
+    native: "We're still investigating the <em>root cause</em>. Early data suggests a drop in merchant online rate.",
+    vocab: [{w:"root cause",m:"根本原因"}]
   },
   {
-    id: "card_7",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "Let's talk about this.",
+    id: "c7", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "引导讨论对齐",
+    basic: "Let's talk about this.",
     native: "Let's <em>align on</em> the <em>action items</em> before we <em>wrap up</em>.",
-    nativePlain: "Let's align on the action items before we wrap up.",
-    vocab: [
-      { word: "align on", meaning: "对齐" },
-      { word: "action items", meaning: "待办事项" },
-      { word: "wrap up", meaning: "结束会议" }
-    ]
+    vocab: [{w:"align on",m:"对齐"},{w:"action items",m:"待办事项"},{w:"wrap up",m:"结束会议"}]
   },
   {
-    id: "card_8",
-    date: "2026-03-31",
-    topic: "周会 & 日报 必备表达",
-    basic: "Who will do this?",
+    id: "c8", date: "2026-03-31", topic: "周会 & 日报",
     scenario: "指定任务负责人",
-    native: "Can we <em>assign a clear owner</em> for this and get it resolved by <em>EOD</em> Friday?",
-    nativePlain: "Can we assign a clear owner for this and get it resolved by EOD Friday?",
-    vocab: [
-      { word: "assign an owner", meaning: "指定负责人" },
-      { word: "EOD", meaning: "end of day" }
-    ]
+    basic: "Who will do this?",
+    native: "Can we <em>assign an owner</em> and get this resolved by <em>EOD</em> Friday?",
+    vocab: [{w:"assign an owner",m:"指定负责人"},{w:"EOD",m:"end of day 下班前"}]
   }
 ];
 
-  p[id] = state;
-  saveProgress(p);
+const INTERVALS = [1, 2, 4, 7, 15, 30];
+
+// ==================== STORAGE ====================
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('anki_v2') || '{}'); } catch(e) { return {}; }
+}
+function saveProgress(p) {
+  try { localStorage.setItem('anki_v2', JSON.stringify(p)); } catch(e) {}
+}
+function getState(id) {
+  return getProgress()[id] || { level: 0, nextReview: 0 };
+}
+function setState(id, s) {
+  const p = getProgress(); p[id] = s; saveProgress(p);
 }
 
-// ==================== ANKI LOGIC ====================
-let currentCardIndex = 0;
+// ==================== ANKI ====================
 let dueCards = [];
-let isFlipped = false;
-
-function getDueCards() {
-  const now = Date.now();
-  return CARDS.filter(c => {
-    const s = getCardState(c.id);
-    return s.nextReview <= now;
-  });
-}
+let curIdx = 0;
 
 function renderAnki() {
-  dueCards = getDueCards();
+  dueCards = CARDS.filter(c => getState(c.id).nextReview <= Date.now());
   document.getElementById('dueCount').textContent = dueCards.length;
-  currentCardIndex = 0;
-  isFlipped = false;
+  curIdx = 0;
   showCard();
 }
 
 function showCard() {
-  const container = document.getElementById('ankiContent');
+  const el = document.getElementById('ankiContent');
+  if (!el) return;
+
   if (dueCards.length === 0) {
-    container.innerHTML = `
-      <div class="anki-empty">
-        <div class="anki-empty-icon">🎉</div>
-        <div class="anki-empty-title">今日复习完成！</div>
-        <div class="anki-empty-sub">所有卡片都复习完了，明天再来吧～</div>
-      </div>`;
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div><div class="empty-title">今日复习完成！</div><div class="empty-sub">所有卡片都复习过了，明天再来～</div></div>';
     return;
   }
-  if (currentCardIndex >= dueCards.length) {
-    container.innerHTML = `
-      <div class="anki-empty">
-        <div class="anki-empty-icon">✅</div>
-        <div class="anki-empty-title">本轮完成！</div>
-        <div class="anki-empty-sub">已复习 ${dueCards.length} 张卡片</div>
-      </div>`;
+  if (curIdx >= dueCards.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">✅</div><div class="empty-title">本轮完成！</div><div class="empty-sub">共复习了 ' + dueCards.length + ' 张卡片</div></div>';
     return;
   }
 
-  const card = dueCards[currentCardIndex];
-  const vocabHtml = card.vocab.map(v =>
-    `<span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:13px;"><strong>${v.word}</strong> ${v.meaning}</span>`
+  const c = dueCards[curIdx];
+  const vocabHtml = c.vocab.map(v =>
+    '<span><strong>' + v.w + '</strong> ' + v.m + '</span>'
   ).join('');
 
-  isFlipped = false;
-  container.innerHTML = `
-    <div class="anki-card-num">${currentCardIndex + 1} / ${dueCards.length}</div>
-    <div class="anki-scene" onclick="flipCard()">
-      <div class="anki-flipper" id="flipper">
-        <div class="anki-face anki-front">
-          <div class="anki-front-icon">❌</div>
-          <div class="anki-front-scenario">${card.scenario}</div>
-          <div class="anki-front-text">${card.basic}</div>
-          <div class="anki-front-hint">点击翻转 →</div>
-        </div>
-        <div class="anki-face anki-back">
-          <div class="anki-back-label">地道表达</div>
-          <div class="anki-back-native">${card.native}</div>
-          <div class="anki-back-vocab">${vocabHtml}</div>
-        </div>
-      </div>
-    </div>
-    <div class="anki-flip-hint" id="flipHint">点击卡片查看答案</div>
-    <div class="anki-actions" id="ankiActions" style="display:none">
-      <button class="anki-btn" style="background:#ef4444" onclick="rateCard('forget')">❌ 不认识</button>
-      <button class="anki-btn" style="background:#f59e0b" onclick="rateCard('fuzzy')">🤔 模糊</button>
-      <button class="anki-btn" style="background:#10b981" onclick="rateCard('know')">✅ 认识</button>
-    </div>`;
+  el.innerHTML =
+    '<div class="card-num">' + (curIdx+1) + ' / ' + dueCards.length + '</div>' +
+    '<div class="scene" id="scene" onclick="flipCard()">' +
+      '<div class="flipper" id="flipper">' +
+        '<div class="face front">' +
+          '<div class="front-icon">❓</div>' +
+          '<div class="front-scenario">' + c.scenario + '</div>' +
+          '<div class="front-basic">' + c.basic + '</div>' +
+          '<div class="front-hint">点击翻转查看答案 →</div>' +
+        '</div>' +
+        '<div class="face back">' +
+          '<div class="back-label">✅ 地道表达</div>' +
+          '<div class="back-native">' + c.native + '</div>' +
+          '<div class="back-vocab">' + vocabHtml + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="flip-hint" id="flipHint">点击卡片查看答案</div>' +
+    '<div class="anki-actions" id="ankiActions">' +
+      '<button class="anki-btn" style="background:#ef4444" onclick="rateCard(\'forget\')">❌ 不认识</button>' +
+      '<button class="anki-btn" style="background:#f59e0b" onclick="rateCard(\'fuzzy\')">🤔 模糊</button>' +
+      '<button class="anki-btn" style="background:#10b981" onclick="rateCard(\'know\')">✅ 认识</button>' +
+    '</div>';
 }
 
 function flipCard() {
-  isFlipped = !isFlipped;
   const flipper = document.getElementById('flipper');
-  if (flipper) {
-    flipper.classList.toggle('flipped', isFlipped);
-    if (isFlipped) {
-      document.getElementById('flipHint').style.display = 'none';
-      document.getElementById('ankiActions').style.display = 'flex';
-    }
-  }
+  if (!flipper) return;
+  flipper.classList.toggle('flipped');
+  const isFlipped = flipper.classList.contains('flipped');
+  const hint = document.getElementById('flipHint');
+  const actions = document.getElementById('ankiActions');
+  if (hint) hint.style.display = isFlipped ? 'none' : '';
+  if (actions) actions.classList.toggle('show', isFlipped);
 }
 
 function rateCard(rating) {
-  const card = dueCards[currentCardIndex];
-  const state = getCardState(card.id);
-  let level = state.level || 0;
-  const now = Date.now();
-  let intervalDays;
-
-  if (rating === 'know') {
-    level = Math.min(level + 1, INTERVALS.length - 1);
-    intervalDays = INTERVALS[level];
-  } else if (rating === 'fuzzy') {
-    level = Math.max(level - 1, 0);
-    intervalDays = INTERVALS[level] * 1.2;
-  } else {
-    level = 0;
-    intervalDays = 1;
-  }
-
-  setCardState(card.id, {
-    level,
-    nextReview: now + intervalDays * 24 * 60 * 60 * 1000
-  });
-
-  currentCardIndex++;
-  document.getElementById('dueCount').textContent = dueCards.length - currentCardIndex;
+  const c = dueCards[curIdx];
+  const s = getState(c.id);
+  let level = s.level || 0;
+  let days;
+  if (rating === 'know') { level = Math.min(level + 1, INTERVALS.length - 1); days = INTERVALS[level]; }
+  else if (rating === 'fuzzy') { level = Math.max(level - 1, 0); days = INTERVALS[level]; }
+  else { level = 0; days = 1; }
+  setState(c.id, { level, nextReview: Date.now() + days * 86400000 });
+  curIdx++;
+  document.getElementById('dueCount').textContent = Math.max(0, dueCards.length - curIdx);
   showCard();
-}
-
-// ==================== ARCHIVE ====================
-function renderArchive() {
-  const grouped = {};
-  CARDS.forEach(c => {
-    if (!grouped[c.date]) grouped[c.date] = { topic: c.topic, cards: [] };
-    grouped[c.date].cards.push(c);
-  });
-
-  const container = document.getElementById('archiveContent');
-  const dates = Object.keys(grouped).sort((a,b) => b.localeCompare(a));
-
-  container.innerHTML = dates.map(date => {
-    const g = grouped[date];
-    const cardsHtml = g.cards.map(c => `
-      <div class="archive-item">
-        <div class="archive-item-basic">❌ ${c.basic}</div>
-        <div class="archive-item-native">✅ ${c.native}</div>
-        <div class="archive-item-vocab">${c.vocab.map(v => `<span><strong>${v.word}</strong> ${v.meaning}</span>`).join(' · ')}</div>
-      </div>`).join('');
-    return `
-      <div class="archive-card">
-        <div class="archive-header" onclick="toggleArchive('${date}')">
-          <div>
-            <div class="archive-date">${date}</div>
-            <div class="archive-topic">${g.topic}</div>
-          </div>
-          <span class="archive-toggle" id="toggle-${date}">▼</span>
-        </div>
-        <div class="archive-body" id="body-${date}">${cardsHtml}</div>
-      </div>`;
-  }).join('');
-}
-
-function toggleArchive(date) {
-  const body = document.getElementById('body-' + date);
-  const toggle = document.getElementById('toggle-' + date);
-  if (body.style.display === 'none') {
-    body.style.display = 'block';
-    toggle.textContent = '▲';
-  } else {
-    body.style.display = 'none';
-    toggle.textContent = '▼';
-  }
 }
 
 // ==================== TABS ====================
@@ -838,24 +381,23 @@ function switchTab(tab) {
   document.getElementById('page-' + tab).style.display = 'block';
   document.getElementById('tab-' + tab).classList.add('active');
   if (tab === 'anki') renderAnki();
-  // archive content is static HTML, no JS render needed
 }
 
 // ==================== THEME ====================
 function toggleTheme() {
-  const root = document.documentElement;
-  const isDark = root.getAttribute('data-theme') === 'dark';
-  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
   document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
   localStorage.setItem('theme', isDark ? 'light' : 'dark');
 }
 
 // ==================== INIT ====================
-(function init() {
-  const saved = localStorage.getItem('theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-  document.getElementById('themeBtn').textContent = saved === 'dark' ? '☀️' : '🌙';
-  switchTab('anki');
+(function() {
+  const t = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
+  // Default to archive tab (shows static content immediately)
+  // switchTab('archive') already matches initial HTML state
 })();
 </script>
 </body>
