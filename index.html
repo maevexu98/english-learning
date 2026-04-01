@@ -669,22 +669,194 @@ const CARDS = [
   }
 ];
 
-// Ebbinghaus intervals (days)
-const INTERVALS = [1, 2, 4, 7, 15, 30];
+  p[id] = state;
+  saveProgress(p);
+}
 
-// ==================== STORAGE ====================
-function getProgress() {
-  try {
-    return JSON.parse(localStorage.getItem('ankiProgress') || '{}');
-  } catch(e) { return {}; }
+// ==================== ANKI LOGIC ====================
+let currentCardIndex = 0;
+let dueCards = [];
+let isFlipped = false;
+
+function getDueCards() {
+  const now = Date.now();
+  return CARDS.filter(c => {
+    const s = getCardState(c.id);
+    return s.nextReview <= now;
+  });
 }
-function saveProgress(p) {
-  try { localStorage.setItem('ankiProgress', JSON.stringify(p)); } catch(e) {}
+
+function renderAnki() {
+  dueCards = getDueCards();
+  document.getElementById('dueCount').textContent = dueCards.length;
+  currentCardIndex = 0;
+  isFlipped = false;
+  showCard();
 }
-function getCardState(id) {
-  const p = getProgress();
-  return p[id] || { level: 0, nextReview: 0 };
+
+function showCard() {
+  const container = document.getElementById('ankiContent');
+  if (dueCards.length === 0) {
+    container.innerHTML = `
+      <div class="anki-empty">
+        <div class="anki-empty-icon">🎉</div>
+        <div class="anki-empty-title">今日复习完成！</div>
+        <div class="anki-empty-sub">所有卡片都复习完了，明天再来吧～</div>
+      </div>`;
+    return;
+  }
+  if (currentCardIndex >= dueCards.length) {
+    container.innerHTML = `
+      <div class="anki-empty">
+        <div class="anki-empty-icon">✅</div>
+        <div class="anki-empty-title">本轮完成！</div>
+        <div class="anki-empty-sub">已复习 ${dueCards.length} 张卡片</div>
+      </div>`;
+    return;
+  }
+
+  const card = dueCards[currentCardIndex];
+  const vocabHtml = card.vocab.map(v =>
+    `<span style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:13px;"><strong>${v.word}</strong> ${v.meaning}</span>`
+  ).join('');
+
+  isFlipped = false;
+  container.innerHTML = `
+    <div class="anki-card-num">${currentCardIndex + 1} / ${dueCards.length}</div>
+    <div class="anki-scene" onclick="flipCard()">
+      <div class="anki-flipper" id="flipper">
+        <div class="anki-face anki-front">
+          <div class="anki-front-icon">❌</div>
+          <div class="anki-front-scenario">${card.scenario}</div>
+          <div class="anki-front-text">${card.basic}</div>
+          <div class="anki-front-hint">点击翻转 →</div>
+        </div>
+        <div class="anki-face anki-back">
+          <div class="anki-back-label">地道表达</div>
+          <div class="anki-back-native">${card.native}</div>
+          <div class="anki-back-vocab">${vocabHtml}</div>
+        </div>
+      </div>
+    </div>
+    <div class="anki-flip-hint" id="flipHint">点击卡片查看答案</div>
+    <div class="anki-actions" id="ankiActions" style="display:none">
+      <button class="anki-btn" style="background:#ef4444" onclick="rateCard('forget')">❌ 不认识</button>
+      <button class="anki-btn" style="background:#f59e0b" onclick="rateCard('fuzzy')">🤔 模糊</button>
+      <button class="anki-btn" style="background:#10b981" onclick="rateCard('know')">✅ 认识</button>
+    </div>`;
 }
-function setCardState(id, state) {
-  const p = getProgress();
-  p[id] =
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  const flipper = document.getElementById('flipper');
+  if (flipper) {
+    flipper.classList.toggle('flipped', isFlipped);
+    if (isFlipped) {
+      document.getElementById('flipHint').style.display = 'none';
+      document.getElementById('ankiActions').style.display = 'flex';
+    }
+  }
+}
+
+function rateCard(rating) {
+  const card = dueCards[currentCardIndex];
+  const state = getCardState(card.id);
+  let level = state.level || 0;
+  const now = Date.now();
+  let intervalDays;
+
+  if (rating === 'know') {
+    level = Math.min(level + 1, INTERVALS.length - 1);
+    intervalDays = INTERVALS[level];
+  } else if (rating === 'fuzzy') {
+    level = Math.max(level - 1, 0);
+    intervalDays = INTERVALS[level] * 1.2;
+  } else {
+    level = 0;
+    intervalDays = 1;
+  }
+
+  setCardState(card.id, {
+    level,
+    nextReview: now + intervalDays * 24 * 60 * 60 * 1000
+  });
+
+  currentCardIndex++;
+  document.getElementById('dueCount').textContent = dueCards.length - currentCardIndex;
+  showCard();
+}
+
+// ==================== ARCHIVE ====================
+function renderArchive() {
+  const grouped = {};
+  CARDS.forEach(c => {
+    if (!grouped[c.date]) grouped[c.date] = { topic: c.topic, cards: [] };
+    grouped[c.date].cards.push(c);
+  });
+
+  const container = document.getElementById('archiveContent');
+  const dates = Object.keys(grouped).sort((a,b) => b.localeCompare(a));
+
+  container.innerHTML = dates.map(date => {
+    const g = grouped[date];
+    const cardsHtml = g.cards.map(c => `
+      <div class="archive-item">
+        <div class="archive-item-basic">❌ ${c.basic}</div>
+        <div class="archive-item-native">✅ ${c.native}</div>
+        <div class="archive-item-vocab">${c.vocab.map(v => `<span><strong>${v.word}</strong> ${v.meaning}</span>`).join(' · ')}</div>
+      </div>`).join('');
+    return `
+      <div class="archive-card">
+        <div class="archive-header" onclick="toggleArchive('${date}')">
+          <div>
+            <div class="archive-date">${date}</div>
+            <div class="archive-topic">${g.topic}</div>
+          </div>
+          <span class="archive-toggle" id="toggle-${date}">▼</span>
+        </div>
+        <div class="archive-body" id="body-${date}">${cardsHtml}</div>
+      </div>`;
+  }).join('');
+}
+
+function toggleArchive(date) {
+  const body = document.getElementById('body-' + date);
+  const toggle = document.getElementById('toggle-' + date);
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    toggle.textContent = '▲';
+  } else {
+    body.style.display = 'none';
+    toggle.textContent = '▼';
+  }
+}
+
+// ==================== TABS ====================
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + tab).style.display = 'block';
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'anki') renderAnki();
+  // archive content is static HTML, no JS render needed
+}
+
+// ==================== THEME ====================
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+
+// ==================== INIT ====================
+(function init() {
+  const saved = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').textContent = saved === 'dark' ? '☀️' : '🌙';
+  switchTab('anki');
+})();
+</script>
+</body>
+</html>
