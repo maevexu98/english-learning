@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 B1 词汇速成</title>
+<style>
+  :root {
+    --primary: #6366f1;
+    --primary-light: #818cf8;
+    --primary-dark: #4f46e5;
+    --accent: #10b981;
+    --bg: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-nav: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --tag-bg: #ede9fe;
+    --tag-color: #7c3aed;
+  }
+  [data-theme="dark"] {
+    --bg: #0f172a; --bg-card: #1e293b; --bg-nav: #1e293b;
+    --text: #f1f5f9; --text-muted: #94a3b8; --text-light: #64748b;
+    --border: #334155; --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.4);
+    --tag-bg: #312e81; --tag-color: #a5b4fc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+  .nav { position: sticky; top: 0; z-index: 100; background: var(--bg-nav); border-bottom: 1px solid var(--border); padding: 0 16px; display: flex; align-items: center; gap: 12px; height: 56px; box-shadow: var(--shadow); }
+  .nav-title { font-size: 17px; font-weight: 700; flex: 1; }
+  .nav-btn { background: none; border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm); padding: 6px 12px; cursor: pointer; font-size: 13px; white-space: nowrap; transition: all 0.2s; }
+  .nav-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .tabs-wrap { background: var(--bg-nav); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tabs { display: flex; padding: 0 12px; min-width: max-content; }
+  .tab { padding: 12px 16px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); border: none; background: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .tab:hover { color: var(--primary); }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .panel { display: none; padding: 16px; }
+  .panel.active { display: block; }
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn { padding: 5px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted); font-size: 12px; cursor: pointer; transition: all 0.2s; }
+  .filter-btn.active, .filter-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .vocab-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); transition: all 0.2s; position: relative; overflow: hidden; }
+  .vocab-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
+  .vocab-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--primary); }
+  .vocab-card.priority-1::before { background: var(--accent); }
+  .vocab-card.priority-3::before { background: var(--text-light); }
+  .card-en { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .card-zh { font-size: 13px; color: var(--primary); font-weight: 500; margin-bottom: 4px; }
+  .card-ex { font-size: 12px; color: var(--text-muted); line-height: 1.5; font-style: italic; }
+  .card-tag { display: inline-block; background: var(--tag-bg); color: var(--tag-color); border-radius: 4px; font-size: 10px; padding: 1px 5px; margin-top: 5px; }
+  .legend { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .anki-container { max-width: 500px; margin: 0 auto; padding: 16px; }
+  .anki-progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 20px; overflow: hidden; }
+  .anki-progress-fill { height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.3s; }
+  .anki-info { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+  .anki-card-wrap { min-height: 280px; cursor: pointer; margin-bottom: 20px; }
+  .anki-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; box-shadow: var(--shadow-lg); text-align: center; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; }
+  .anki-label { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; }
+  .anki-zh { font-size: 22px; font-weight: 700; color: var(--text); }
+  .anki-scene { font-size: 13px; color: var(--text-muted); background: var(--bg); border-radius: var(--radius-sm); padding: 8px 14px; line-height: 1.5; }
+  .anki-tap { font-size: 12px; color: var(--text-light); margin-top: 8px; }
+  .anki-en { font-size: 26px; font-weight: 700; color: var(--primary); }
+  .anki-ex { font-size: 13px; color: var(--text-muted); font-style: italic; line-height: 1.6; max-width: 400px; }
+  .anki-btns { display: flex; gap: 12px; justify-content: center; }
+  .anki-btn { flex: 1; max-width: 130px; padding: 12px; border-radius: var(--radius); border: none; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+  .anki-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .btn-forgot { background: #fee2e2; color: #dc2626; }
+  .btn-fuzzy  { background: #fef3c7; color: #d97706; }
+  .btn-know   { background: #d1fae5; color: #059669; }
+  [data-theme="dark"] .btn-forgot { background: #450a0a; color: #fca5a5; }
+  [data-theme="dark"] .btn-fuzzy  { background: #451a03; color: #fcd34d; }
+  [data-theme="dark"] .btn-know   { background: #064e3b; color: #6ee7b7; }
+  .anki-empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .anki-empty .big { font-size: 48px; margin-bottom: 12px; }
+  .anki-start-btn { background: var(--primary); color: #fff; border: none; border-radius: var(--radius); padding: 12px 28px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+  .anki-start-btn:hover { background: var(--primary-dark); }
+  .anki-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+  .anki-stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+  .anki-stat-card .big-num { font-size: 28px; font-weight: 700; color: var(--primary); }
+  .anki-stat-card .slabel { font-size: 12px; color: var(--text-muted); }
+  .review-badge { background: #fee2e2; color: #dc2626; border-radius: 99px; padding: 1px 6px; font-size: 11px; font-weight: 700; margin-left: 4px; }
+  @media (max-width: 480px) { .vocab-grid { grid-template-columns: 1fr; } .anki-en { font-size: 20px; } .anki-zh { font-size: 18px; } }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-title">📚 B1 词汇速成</span>
+  <a href="./index.html" style="text-decoration:none;">
+    <button class="nav-btn">🏠 首页</button>
+  </a>
+  <button class="nav-btn" id="themeBtn" onclick="toggleTheme()">🌙 深色</button>
+</nav>
+
+<div class="tabs-wrap">
+  <div class="tabs" id="tabBar"></div>
+</div>
+
+<div id="panels"></div>
+
+<div id="anki-panel" style="display:none;">
+  <div class="anki-container" id="ankiContent"></div>
+</div>
+
+<script>
+const VOCAB = [
+  // MODULE 1: 数据汇报
+  {id:101,module:1,en:"increase",zh:"增加、上升",example:"Sales increased by 15% this month.",priority:1},
+  {id:102,module:1,en:"rise",zh:"上升",example:"The number of users continues to rise.",priority:1},
+  {id:103,module:1,en:"grow",zh:"增长",example:"Revenue grew 20% year over year.",priority:1},
+  {id:104,module:1,en:"go up",zh:"上升（口语）",example:"Prices went up sharply last quarter.",priority:1},
+  {id:105,module:1,en:"decrease",zh:"减少、下降",example:"Costs decreased after optimization.",priority:1},
+  {id:106,module:1,en:"drop",zh:"下跌、减少",example:"Orders dropped significantly in Q3.",priority:1},
+  {id:107,module:1,en:"fall",zh:"下降",example:"The conversion rate fell below target.",priority:1},
+  {id:108,module:1,en:"decline",zh:"下滑",example:"Active users showed a steady decline.",priority:1},
+  {id:109,module:1,en:"stable / flat",zh:"稳定、持平",example:"Growth remained flat this week.",priority:2},
+  {id:110,module:1,en:"significantly",zh:"显著地",example:"Performance improved significantly.",priority:1},
+  {id:111,module:1,en:"slightly",zh:"略微地",example:"Revenue slightly missed our target.",priority:1},
+  {id:112,module:1,en:"sharply",zh:"急剧地",example:"The metric dropped sharply overnight.",priority:1},
+  {id:113,module:1,en:"gradually",zh:"逐渐地",example:"Numbers gradually recovered after the dip.",priority:2},
+  {id:114,module:1,en:"steadily",zh:"稳步地",example:"We are steadily growing market share.",priority:2},
+  {id:115,module:1,en:"picked up",zh:"回升、好转",example:"Sales picked up after the campaign launch.",priority:1},
+  {id:116,module:1,en:"softened",zh:"有所放缓",example:"Growth softened in the second half.",priority:2},
+  {id:117,module:1,en:"rebounded",zh:"反弹回升",example:"The index rebounded strongly in Q4.",priority:2},
+  {id:118,module:1,en:"plateaued",zh:"进入平台期",example:"User growth has plateaued this quarter.",priority:2},
+  {id:119,module:1,en:"peak",zh:"峰值、顶点",example:"We hit a peak of 10,000 orders on Friday.",priority:1},
+  {id:120,module:1,en:"bottom out",zh:"触底",example:"The decline appears to have bottomed out.",priority:2},
+  {id:121,module:1,en:"fluctuate",zh:"波动",example:"Daily numbers fluctuate around 5,000.",priority:2},
+  {id:122,module:1,en:"trend",zh:"趋势",example:"The overall trend is positive.",priority:1},
+  {id:123,module:1,en:"momentum",zh:"势头、动力",example:"We need to maintain growth momentum.",priority:2},
+  {id:124,module:1,en:"outperform",zh:"超越、表现优于",example:"This region outperforms all others.",priority:2},
+  {id:125,module:1,en:"underperform",zh:"表现低于预期",example:"The campaign underperformed our estimate.",priority:2},
+  {id:126,module:1,en:"beat the target",zh:"超额完成目标",example:"We beat the target by 8%.",priority:1},
+  {id:127,module:1,en:"miss the target",zh:"未完成目标",example:"We missed the weekly target by 3%.",priority:1},
+  {id:128,module:1,en:"WoW",zh:"周环比",example:"GMV grew 12% WoW.",priority:1},
+  {id:129,module:1,en:"MoM",zh:"月环比",example:"Orders are up 18% MoM.",priority:1},
+  {id:130,module:1,en:"YoY",zh:"年同比",example:"Revenue increased 45% YoY.",priority:1},
+  {id:131,module:1,en:"driven by",zh:"由…驱动",example:"Growth was driven by new merchant onboarding.",priority:1},
+  {id:132,module:1,en:"attributed to",zh:"归因于",example:"The drop is attributed to seasonality.",priority:1},
+  {id:133,module:1,en:"spike",zh:"急剧上升",example:"We saw a spike in orders on Saturday.",priority:1},
+  {id:134,module:1,en:"surge",zh:"激增",example:"A surge in demand caught us off guard.",priority:1},
+  {id:135,module:1,en:"dip",zh:"小幅下降",example:"There was a dip mid-week but it recovered.",priority:1},
+  {id:136,module:1,en:"slump",zh:"大幅下滑",example:"The market entered a brief slump.",priority:2},
+
+  // MODULE 2: 会议沟通
+  {id:201,module:2,en:"align",zh:"对齐、达成共识",example:"Let's align on the priorities before Friday.",priority:1},
+  {id:202,module:2,en:"sync up",zh:"同步信息",example:"Can we sync up tomorrow morning?",priority:1},
+  {id:203,module:2,en:"check in",zh:"简短沟通确认状态",example:"I'll check in with the team this afternoon.",priority:1},
+  {id:204,module:2,en:"action items",zh:"待办事项",example:"Please review the action items from today's meeting.",priority:1},
+  {id:205,module:2,en:"follow up",zh:"后续跟进",example:"I'll follow up with the merchant team.",priority:1},
+  {id:206,module:2,en:"next steps",zh:"下一步行动",example:"Let's agree on next steps before we close.",priority:1},
+  {id:207,module:2,en:"wrap up",zh:"收尾、结束",example:"We're almost out of time, let's wrap up.",priority:1},
+  {id:208,module:2,en:"assign owner",zh:"指定负责人",example:"We need to assign an owner for each task.",priority:1},
+  {id:209,module:2,en:"agenda",zh:"议程",example:"I'll share the agenda 30 minutes before the call.",priority:2},
+  {id:210,module:2,en:"minutes",zh:"会议记录",example:"Could someone take the minutes today?",priority:2},
+  {id:211,module:2,en:"takeaway",zh:"核心要点",example:"The key takeaway is to focus on retention.",priority:1},
+  {id:212,module:2,en:"recap",zh:"简要回顾",example:"Let me do a quick recap of last week.",priority:1},
+  {id:213,module:2,en:"raise a concern",zh:"提出顾虑",example:"I'd like to raise a concern about the timeline.",priority:1},
+  {id:214,module:2,en:"flag an issue",zh:"标记问题",example:"I want to flag an issue with data quality.",priority:1},
+  {id:215,module:2,en:"clarify",zh:"澄清",example:"Can you clarify what you mean by 'activation'?",priority:1},
+  {id:216,module:2,en:"confirm",zh:"确认",example:"Please confirm the meeting time by EOD.",priority:1},
+  {id:217,module:2,en:"summarize",zh:"总结",example:"Let me summarize what we've discussed.",priority:1},
+  {id:218,module:2,en:"on track",zh:"按计划推进",example:"The project is on track for launch.",priority:1},
+  {id:219,module:2,en:"off track",zh:"偏离计划",example:"We're slightly off track on the Q2 target.",priority:1},
+  {id:220,module:2,en:"behind schedule",zh:"落后于计划",example:"The integration is behind schedule by one week.",priority:1},
+  {id:221,module:2,en:"deadline",zh:"截止日期",example:"The deadline for this is next Friday.",priority:1},
+  {id:222,module:2,en:"EOD",zh:"今天下班前",example:"Please send me the report by EOD.",priority:1},
+  {id:223,module:2,en:"EOW",zh:"本周末前",example:"Let's finalize the plan by EOW.",priority:1},
+  {id:224,module:2,en:"loop in",zh:"拉人进组通知某人",example:"Can you loop in the ops team on this?",priority:1},
+  {id:225,module:2,en:"heads up",zh:"提前告知",example:"Just a heads up, the system will be down tonight.",priority:1},
+  {id:226,module:2,en:"FYI",zh:"供你参考",example:"FYI, the results are already in the doc.",priority:1},
+  {id:227,module:2,en:"push back",zh:"反对、提出异议",example:"The team pushed back on the aggressive timeline.",priority:2},
+  {id:228,module:2,en:"move forward",zh:"推进",example:"Let's move forward with Option A.",priority:1},
+  {id:229,module:2,en:"table it",zh:"搁置暂缓讨论",example:"Let's table this for now and revisit next week.",priority:2},
+
+  // MODULE 3: 逻辑表达
+  {id:301,module:3,en:"because / since",zh:"因为",example:"Sales dropped because the promotion ended.",priority:1},
+  {id:302,module:3,en:"given that",zh:"考虑到",example:"Given that volumes are low, we should wait.",priority:1},
+  {id:303,module:3,en:"therefore / thus",zh:"因此",example:"Costs rose, therefore margins compressed.",priority:1},
+  {id:304,module:3,en:"as a result",zh:"结果是、因此",example:"As a result, user satisfaction improved.",priority:1},
+  {id:305,module:3,en:"however",zh:"然而、但是",example:"The plan is solid, however execution is slow.",priority:1},
+  {id:306,module:3,en:"although / despite",zh:"虽然、尽管",example:"Although we missed target, the trend is positive.",priority:1},
+  {id:307,module:3,en:"in addition / furthermore",zh:"此外、而且",example:"In addition, we launched three new cities.",priority:1},
+  {id:308,module:3,en:"in contrast",zh:"相比之下",example:"In contrast, the competitor saw a decline.",priority:1},
+  {id:309,module:3,en:"on the other hand",zh:"另一方面",example:"On the other hand, risks remain high.",priority:1},
+  {id:310,module:3,en:"for example",zh:"例如",example:"For example, SA grew 30% this quarter.",priority:1},
+  {id:311,module:3,en:"in summary / in conclusion",zh:"总而言之",example:"In summary, the quarter was strong overall.",priority:1},
+  {id:312,module:3,en:"root cause",zh:"根本原因",example:"The root cause is poor merchant coverage.",priority:1},
+  {id:313,module:3,en:"contributing factor",zh:"促成因素",example:"Bad weather was a contributing factor.",priority:2},
+  {id:314,module:3,en:"key driver",zh:"关键驱动因素",example:"The key driver of growth is frequency.",priority:1},
+  {id:315,module:3,en:"hypothesis",zh:"假设",example:"Our hypothesis is that price drives conversion.",priority:2},
+  {id:316,module:3,en:"finding",zh:"发现、结论",example:"The key finding is a 40% drop in retention.",priority:1},
+  {id:317,module:3,en:"insight",zh:"洞察、深入见解",example:"The insight from the data is clear.",priority:1},
+  {id:318,module:3,en:"correlation",zh:"相关性",example:"There's a strong correlation between rain and orders.",priority:2},
+  {id:319,module:3,en:"impact",zh:"影响、作用",example:"What is the impact of this change on GMV?",priority:1},
+  {id:320,module:3,en:"implication",zh:"影响、暗示",example:"The implication is we need more resources.",priority:2},
+
+  // MODULE 4: 运营商务
+  {id:401,module:4,en:"merchant",zh:"商家、餐厅方",example:"We onboarded 50 new merchants this week.",priority:1},
+  {id:402,module:4,en:"vendor",zh:"供应商、服务商",example:"The vendor delivered late again.",priority:2},
+  {id:403,module:4,en:"partner",zh:"合作伙伴",example:"We work closely with local delivery partners.",priority:1},
+  {id:404,module:4,en:"launch",zh:"上线、发布",example:"We plan to launch in Q3.",priority:1},
+  {id:405,module:4,en:"onboard",zh:"引导上手、签约",example:"We need to onboard 200 merchants by June.",priority:1},
+  {id:406,module:4,en:"activate",zh:"激活",example:"How many merchants did we activate this week?",priority:1},
+  {id:407,module:4,en:"go live",zh:"正式上线",example:"The new feature went live yesterday.",priority:1},
+  {id:408,module:4,en:"target",zh:"目标",example:"Our target is 10,000 weekly active users.",priority:1},
+  {id:409,module:4,en:"KPI",zh:"关键绩效指标",example:"The KPI for this quarter is GMV growth.",priority:1},
+  {id:410,module:4,en:"quota",zh:"配额、指标",example:"Each BD has a quota of 20 new merchants.",priority:1},
+  {id:411,module:4,en:"milestone",zh:"里程碑",example:"Reaching 1,000 merchants is a key milestone.",priority:2},
+  {id:412,module:4,en:"GMV",zh:"商品交易总额",example:"Our daily GMV hit a new record.",priority:1},
+  {id:413,module:4,en:"order volume",zh:"订单量",example:"Order volume increased 30% after the promotion.",priority:1},
+  {id:414,module:4,en:"conversion rate",zh:"转化率",example:"We improved conversion rate by 5%.",priority:1},
+  {id:415,module:4,en:"campaign",zh:"活动、推广",example:"The Ramadan campaign drove strong results.",priority:1},
+  {id:416,module:4,en:"promotion",zh:"促销",example:"A buy-one-get-one promotion boosted orders.",priority:1},
+  {id:417,module:4,en:"incentive",zh:"激励、补贴",example:"We introduced driver incentives to reduce wait time.",priority:1},
+  {id:418,module:4,en:"coverage",zh:"覆盖率",example:"Merchant coverage in the north zone is 60%.",priority:1},
+  {id:419,module:4,en:"penetration",zh:"渗透率",example:"Market penetration is still low in suburbs.",priority:2},
+  {id:420,module:4,en:"market share",zh:"市场份额",example:"We gained 3% market share this quarter.",priority:1},
+  {id:421,module:4,en:"pipeline",zh:"销售漏斗、储备",example:"We have 80 merchants in the pipeline.",priority:2},
+  {id:422,module:4,en:"lead",zh:"潜在商家线索",example:"Sales team generated 50 leads this week.",priority:2},
+  {id:423,module:4,en:"sign / contract",zh:"签约",example:"We signed 30 new contracts in April.",priority:1},
+  {id:424,module:4,en:"exclusive",zh:"独家合作",example:"We signed an exclusive deal with the top brand.",priority:2},
+  {id:425,module:4,en:"expand",zh:"扩张",example:"We plan to expand to three new cities.",priority:1},
+  {id:426,module:4,en:"scale",zh:"规模化扩展",example:"We need to scale the model across all regions.",priority:1},
+  {id:427,module:4,en:"accelerate",zh:"加速",example:"We need to accelerate merchant onboarding.",priority:1},
+
+  // MODULE 5: 听力高频词
+  {id:501,module:5,en:"happy / glad",zh:"高兴的",example:"I'm really happy with the results.",priority:1},
+  {id:502,module:5,en:"sad / upset",zh:"难过的",example:"She was upset about the delay.",priority:1},
+  {id:503,module:5,en:"angry / frustrated",zh:"生气的、沮丧的",example:"He was frustrated with the slow progress.",priority:1},
+  {id:504,module:5,en:"excited / enthusiastic",zh:"兴奋的",example:"The team is excited about the new launch.",priority:1},
+  {id:505,module:5,en:"worried / concerned",zh:"担心的",example:"I'm concerned about the timeline.",priority:1},
+  {id:506,module:5,en:"surprised / shocked",zh:"惊讶的",example:"We were surprised by the strong results.",priority:1},
+  {id:507,module:5,en:"always / never",zh:"总是 / 从不",example:"He always arrives on time.",priority:1},
+  {id:508,module:5,en:"often / usually",zh:"经常 / 通常",example:"We usually review metrics on Monday.",priority:1},
+  {id:509,module:5,en:"big / large / huge",zh:"大的",example:"There's a huge opportunity in this market.",priority:1},
+  {id:510,module:5,en:"small / tiny",zh:"小的",example:"It's a small but important change.",priority:1},
+  {id:511,module:5,en:"fast / quick / rapid",zh:"快的",example:"We need a rapid response to this issue.",priority:1},
+  {id:512,module:5,en:"slow / gradual",zh:"慢的、缓慢的",example:"Progress has been slow but steady.",priority:1},
+  {id:513,module:5,en:"before / after / during",zh:"之前 / 之后 / 期间",example:"During the meeting, we discussed the plan.",priority:1},
+  {id:514,module:5,en:"agree / disagree",zh:"同意 / 不同意",example:"I agree with your analysis.",priority:1},
+  {id:515,module:5,en:"suggest / recommend",zh:"建议",example:"I recommend starting with the data first.",priority:1},
+  {id:516,module:5,en:"prefer",zh:"更喜欢",example:"I prefer working in the morning.",priority:1},
+  {id:517,module:5,en:"help / support / provide",zh:"帮助 / 支持 / 提供",example:"Can you support the team with this task?",priority:1},
+  {id:518,module:5,en:"problem / issue / challenge",zh:"问题 / 挑战",example:"There's an issue with the data pipeline.",priority:1},
+  {id:519,module:5,en:"solution / fix",zh:"解决方案 / 修复",example:"We found a quick fix for the bug.",priority:1},
+  {id:520,module:5,en:"important / necessary / essential",zh:"重要的 / 必要的",example:"It's essential to confirm this by EOD.",priority:1},
+  {id:521,module:5,en:"critical / urgent",zh:"关键的 / 紧急的",example:"This is a critical issue that needs immediate attention.",priority:1},
+  {id:522,module:5,en:"plan / strategy",zh:"计划 / 策略",example:"We need a clear strategy for Q3.",priority:1},
+  {id:523,module:5,en:"goal / objective",zh:"目标",example:"Our goal is to double GMV by year end.",priority:1},
+  {id:524,module:5,en:"team / group",zh:"团队",example:"The team did an excellent job.",priority:1},
+  {id:525,module:5,en:"meeting / call",zh:"会议 / 电话",example:"Can we schedule a call this afternoon?",priority:1},
+  {id:526,module:5,en:"report / update",zh:"报告 / 更新",example:"Please share the weekly update by Friday.",priority:1},
+  {id:527,module:5,en:"change / improve / optimize",zh:"改变 / 改善 / 优化",example:"We need to optimize the checkout flow.",priority:1},
+  {id:528,module:5,en:"increase / decrease",zh:"增加 / 减少",example:"We need to increase order frequency.",priority:1},
+  {id:529,module:5,en:"start / begin / finish / complete",zh:"开始 / 完成",example:"We finished the integration ahead of schedule.",priority:1},
+  {id:530,module:5,en:"understand / know / think",zh:"理解 / 知道 / 认为",example:"I think we should reconsider the approach.",priority:1},
+  {id:531,module:5,en:"ask / tell / explain",zh:"问 / 告诉 / 解释",example:"Can you explain the root cause?",priority:1},
+  {id:532,module:5,en:"number / data / result",zh:"数字 / 数据 / 结果",example:"The results are better than expected.",priority:1},
+  {id:533,module:5,en:"reason / cause / effect",zh:"原因 / 起因 / 效果",example:"What's the main cause of the drop?",priority:1},
+  {id:534,module:5,en:"time / week / month / year",zh:"时间 / 周 / 月 / 年",example:"This happened at the same time last year.",priority:1},
+  {id:535,module:5,en:"percent / percentage",zh:"百分比",example:"User retention improved by 8 percentage points.",priority:1},
+  {id:536,module:5,en:"compare / versus / vs.",zh:"比较 / 对比",example:"Compare this week versus last week.",priority:1},
+
+  // MODULE 6: 演讲句型
+  {id:601,module:6,en:"I'd like to talk about...",zh:"我想讲一下…（开场）",example:"I'd like to talk about our Q2 performance.",priority:1},
+  {id:602,module:6,en:"The main point I want to make is...",zh:"我想说的核心是…（开场）",example:"The main point I want to make is that we're on track.",priority:1},
+  {id:603,module:6,en:"Let me start by...",zh:"让我先从…开始（开场）",example:"Let me start by sharing the key numbers.",priority:1},
+  {id:604,module:6,en:"In my opinion, ...",zh:"依我看来…（表达观点）",example:"In my opinion, we should focus on retention first.",priority:1},
+  {id:605,module:6,en:"I think / believe that...",zh:"我认为…（表达观点）",example:"I believe that this approach will work.",priority:1},
+  {id:606,module:6,en:"From my perspective, ...",zh:"从我的角度来看…（表达观点）",example:"From my perspective, the risk is manageable.",priority:1},
+  {id:607,module:6,en:"In addition, ...",zh:"此外…（递进）",example:"In addition, we need to address supply issues.",priority:1},
+  {id:608,module:6,en:"Another point is...",zh:"另一点是…（递进）",example:"Another point is that cost is also rising.",priority:1},
+  {id:609,module:6,en:"Also, it's worth mentioning that...",zh:"还值得一提的是…（递进）",example:"Also, it's worth mentioning that retention improved.",priority:1},
+  {id:610,module:6,en:"For example, ...",zh:"例如…（举例）",example:"For example, SA grew 30% after the campaign.",priority:1},
+  {id:611,module:6,en:"To give you an idea, ...",zh:"给你一个概念…（举例）",example:"To give you an idea, we handled 5,000 orders a day.",priority:1},
+  {id:612,module:6,en:"A good example of this is...",zh:"一个很好的例子是…（举例）",example:"A good example of this is our Riyadh launch.",priority:1},
+  {id:613,module:6,en:"To sum up, ...",zh:"总结一下…（总结）",example:"To sum up, the quarter exceeded expectations.",priority:1},
+  {id:614,module:6,en:"In conclusion, ...",zh:"总的来说…（总结）",example:"In conclusion, we are on the right track.",priority:1},
+  {id:615,module:6,en:"So overall, ...",zh:"总体而言…（总结）",example:"So overall, the results are quite positive.",priority:1},
+  {id:616,module:6,en:"That's a good question. Let me think...",zh:"好问题，让我想想…（缓冲）",example:"That's a good question. Let me think for a moment.",priority:1},
+  {id:617,module:6,en:"If I understand correctly, ...",zh:"如果我理解正确…（缓冲）",example:"If I understand correctly, you're asking about ROI.",priority:1},
+  {id:618,module:6,en:"What I mean is...",zh:"我的意思是…（缓冲）",example:"What I mean is that we need more time to validate.",priority:1},
+  {id:619,module:6,en:"Let me rephrase that...",zh:"让我换种说法…（缓冲）",example:"Let me rephrase that to make it clearer.",priority:2},
+  {id:620,module:6,en:"Could you say that again?",zh:"你能再说一遍吗？（确认）",example:"Sorry, could you say that again? I didn't catch it.",priority:1},
+  {id:621,module:6,en:"What I'd like to highlight is...",zh:"我想强调的是…",example:"What I'd like to highlight is the improvement in NPS.",priority:1},
+  {id:622,module:6,en:"The key takeaway here is...",zh:"这里的核心要点是…",example:"The key takeaway here is that speed matters most.",priority:1},
+  {id:623,module:6,en:"I'd suggest that...",zh:"我建议…",example:"I'd suggest that we run a pilot first.",priority:1},
+  {id:624,module:6,en:"One thing I'm not sure about is...",zh:"有一点我不太确定…",example:"One thing I'm not sure about is the timeline.",priority:2},
+  {id:625,module:6,en:"Does that make sense?",zh:"这样说清楚了吗？",example:"Does that make sense? Happy to clarify.",priority:1},
+
+  // Extra Module 3 words
+  {id:321,module:3,en:"to begin with",zh:"首先",example:"To begin with, let me explain the context.",priority:1},
+  {id:322,module:3,en:"in other words",zh:"换句话说",example:"In other words, we need to act now.",priority:1},
+  {id:323,module:3,en:"as a consequence",zh:"作为结果",example:"As a consequence, revenue fell short.",priority:2},
+  {id:324,module:3,en:"it follows that",zh:"由此可知",example:"It follows that we should revise the plan.",priority:3},
+  {id:325,module:3,en:"essentially",zh:"本质上",example:"Essentially, this is a retention problem.",priority:1},
+
+  // Extra Module 4 words
+  {id:428,module:4,en:"retention",zh:"留存率",example:"We need to improve 30-day retention.",priority:1},
+  {id:429,module:4,en:"churn",zh:"流失率",example:"High churn is our biggest challenge right now.",priority:1},
+  {id:430,module:4,en:"benchmark",zh:"基准、参照",example:"Let's benchmark against market leaders.",priority:2}
+];
+
+const MODULE_INFO = {
+  1: { name: "📊 数据汇报", en: "Data Reporting" },
+  2: { name: "💬 会议沟通", en: "Meeting & Communication" },
+  3: { name: "🧠 逻辑表达", en: "Logic & Analysis" },
+  4: { name: "🏢 运营商务", en: "Operations & Business" },
+  5: { name: "👂 听力高频", en: "Listening Keywords" },
+  6: { name: "🎤 演讲句型", en: "Speaking Templates" }
+};
+
+const STORAGE_KEY = 'vocab_anki_v1';
+let ankiState = {};
+let ankiQueue = [];
+let ankiCurrentIdx = 0;
+let ankiShowBack = false;
+let activeFilter = 'all';
+
+function loadState() {
+  try { ankiState = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) { ankiState = {}; }
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ankiState));
+}
+function getDueCount() {
+  const now = Date.now();
+  return VOCAB.filter(v => {
+    const s = ankiState[v.id];
+    if (!s) return true;
+    return now >= s.nextReview;
+  }).length;
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙 深色' : '☀️ 浅色';
+}
+
+// Build tabs
+function buildTabs() {
+  const bar = document.getElementById('tabBar');
+  const dueCount = getDueCount();
+  let html = '';
+  for (let m = 1; m <= 6; m++) {
+    html += `<button class="tab ${m===1?'active':''}" data-panel="m${m}" onclick="switchTab('m${m}')">${MODULE_INFO[m].name}</button>`;
+  }
+  html += `<button class="tab" data-panel="anki" onclick="switchTab('anki')">🃏 Anki复习 ${dueCount>0?`<span class="review-badge">${dueCount}</span>`:''}</button>`;
+  bar.innerHTML = html;
+}
+
+function buildPanels() {
+  const container = document.getElementById('panels');
+  let html = '';
+  for (let m = 1; m <= 6; m++) {
+    const words = VOCAB.filter(v => v.module === m);
+    html += `<div id="panel-m${m}" class="panel ${m===1?'active':''}">`;
+    html += `<div class="legend">
+      <span style="font-size:13px;font-weight:600;color:var(--text);margin-right:4px;">${MODULE_INFO[m].name}</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>高频</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--primary)"></span>普通</span>
+      <span class="legend-item"><span class="legend-dot" style="background:var(--text-light)"></span>补充</span>
+      <span style="margin-left:auto;font-size:12px;color:var(--text-muted)">${words.length} 个词</span>
+    </div>`;
+    html += `<div class="filter-bar">
+      <button class="filter-btn active" onclick="filterCards(${m}, 'all', this)">全部</button>
+      <button class="filter-btn" onclick="filterCards(${m}, '1', this)">⭐ 高频</button>
+      <button class="filter-btn" onclick="filterCards(${m}, '2', this)">普通</button>
+      <button class="filter-btn" onclick="filterCards(${m}, 'due', this)">📅 待复习</button>
+    </div>`;
+    html += `<div class="vocab-grid" id="grid-m${m}">`;
+    html += words.map(v => buildCard(v)).join('');
+    html += `</div></div>`;
+  }
+  container.innerHTML = html;
+}
+
+function buildCard(v) {
+  const now = Date.now();
+  const s = ankiState[v.id];
+  const isDue = !s || now >= s.nextReview;
+  return `<div class="vocab-card priority-${v.priority}" data-module="${v.module}" data-priority="${v.priority}" data-due="${isDue}">
+    ${isDue ? '<div style="position:absolute;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>' : ''}
+    <div class="card-en">${escHtml(v.en)}</div>
+    <div class="card-zh">${escHtml(v.zh)}</div>
+    <div class="card-ex">${escHtml(v.example)}</div>
+    <span class="card-tag">${MODULE_INFO[v.module].en}</span>
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function filterCards(moduleNum, type, btn) {
+  document.querySelectorAll(`#panel-m${moduleNum} .filter-btn`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const grid = document.getElementById(`grid-m${moduleNum}`);
+  const now = Date.now();
+  const filtered = VOCAB.filter(v => {
+    if (v.module !== moduleNum) return false;
+    if (type === 'all') return true;
+    if (type === '1') return v.priority === 1;
+    if (type === '2') return v.priority === 2;
+    if (type === 'due') {
+      const s = ankiState[v.id];
+      return !s || now >= s.nextReview;
+    }
+    return true;
+  });
+  grid.innerHTML = filtered.map(v => buildCard(v)).join('');
+}
+
+function switchTab(panelId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => { p.style.display='none'; p.classList.remove('active'); });
+  document.getElementById('anki-panel').style.display = 'none';
+  const activeTab = document.querySelector(`.tab[data-panel="${panelId}"]`);
+  if (activeTab) activeTab.classList.add('active');
+  if (panelId === 'anki') {
+    document.getElementById('anki-panel').style.display = 'block';
+    renderAnkiHome();
+  } else {
+    const panel = document.getElementById(`panel-${panelId}`);
+    if (panel) { panel.style.display = 'block'; panel.classList.add('active'); }
+  }
+}
+
+// ANKI
+function getAnkiQueue() {
+  const now = Date.now();
+  return VOCAB.filter(v => {
+    const s = ankiState[v.id];
+    return !s || now >= s.nextReview;
+  }).sort(() => Math.random() - 0.5);
+}
+
+function renderAnkiHome() {
+  const queue = getAnkiQueue();
+  const total = VOCAB.length;
+  const known = Object.values(ankiState).filter(s => s.rating === 3).length;
+  const reviewed = Object.keys(ankiState).length;
+  const content = document.getElementById('ankiContent');
+  if (queue.length === 0) {
+    content.innerHTML = `<div class="anki-empty">
+      <div class="big">🎉</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;">今日复习全部完成！</div>
+      <div>明天还有 ${Object.values(ankiState).filter(s => {const d=new Date(s.nextReview); return d.toDateString()===new Date(Date.now()+86400000).toDateString();}).length} 个词等着你</div>
+      <div class="anki-stats-grid">
+        <div class="anki-stat-card"><div class="big-num">${total}</div><div class="slabel">总词数</div></div>
+        <div class="anki-stat-card"><div class="big-num">${reviewed}</div><div class="slabel">已复习</div></div>
+        <div class="anki-stat-card"><div class="big-num">${known}</div><div class="slabel">已掌握</div></div>
+      </div>
+    </div>`;
+  } else {
+    content.innerHTML = `<div style="margin-bottom:16px;">
+      <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;">今日待复习</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">共 <strong style="color:var(--primary)">${queue.length}</strong> 个词，已掌握 ${known}/${total}</div>
+      <div class="anki-stats-grid">
+        <div class="anki-stat-card"><div class="big-num">${queue.length}</div><div class="slabel">待复习</div></div>
+        <div class="anki-stat-card"><div class="big-num">${total - reviewed}</div><div class="slabel">未学习</div></div>
+        <div class="anki-stat-card"><div class="big-num">${known}</div><div class="slabel">已掌握</div></div>
+      </div>
+      <div style="text-align:center;margin-top:20px;">
+        <button class="anki-start-btn" onclick="startAnki()">🚀 开始复习</button>
+      </div>
+    </div>`;
+  }
+}
+
+function startAnki() {
+  ankiQueue = getAnkiQueue();
+  ankiCurrentIdx = 0;
+  ankiShowBack = false;
+  renderAnkiCard();
+}
+
+function renderAnkiCard() {
+  const content = document.getElementById('ankiContent');
+  if (ankiCurrentIdx >= ankiQueue.length) {
+    saveState();
+    buildTabs(); // refresh badge
+    renderAnkiHome();
+    return;
+  }
+  const v = ankiQueue[ankiCurrentIdx];
+  const progress = ankiCurrentIdx / ankiQueue.length * 100;
+  const s = ankiState[v.id];
+  const scene = MODULE_INFO[v.module].en;
+  let html = `<div>
+    <div class="anki-info"><span>${ankiCurrentIdx + 1} / ${ankiQueue.length}</span><span>${MODULE_INFO[v.module].name}</span></div>
+    <div class="anki-progress-bar"><div class="anki-progress-fill" style="width:${progress}%"></div></div>
+    <div class="anki-card-wrap" onclick="flipCard()">
+      <div class="anki-card">`;
+  if (!ankiShowBack) {
+    html += `<div class="anki-label">中文 → 英文</div>
+      <div class="anki-zh">${escHtml(v.zh)}</div>
+      <div class="anki-scene">📌 场景：${escHtml(scene)}</div>
+      <div class="anki-tap">点击翻牌 👆</div>`;
+  } else {
+    html += `<div class="anki-label">英文</div>
+      <div class="anki-en">${escHtml(v.en)}</div>
+      <div class="anki-ex">"${escHtml(v.example)}"</div>`;
+  }
+  html += `</div></div>`;
+  if (ankiShowBack) {
+    html += `<div class="anki-btns">
+      <button class="anki-btn btn-forgot" onclick="rateCard(1)">❌ 忘了<br><small>明天再看</small></button>
+      <button class="anki-btn btn-fuzzy" onclick="rateCard(2)">🤔 模糊<br><small>3天后</small></button>
+      <button class="anki-btn btn-know" onclick="rateCard(3)">✅ 记住<br><small>7天后</small></button>
+    </div>`;
+  }
+  html += `</div>`;
+  content.innerHTML = html;
+}
+
+function flipCard() {
+  if (!ankiShowBack) {
+    ankiShowBack = true;
+    renderAnkiCard();
+  }
+}
+
+function rateCard(rating) {
+  const v = ankiQueue[ankiCurrentIdx];
+  const intervals = { 1: 1, 2: 3, 3: 7 };
+  const days = intervals[rating];
+  ankiState[v.id] = {
+    rating,
+    nextReview: Date.now() + days * 86400000,
+    lastReviewed: Date.now()
+  };
+  saveState();
+  ankiCurrentIdx++;
+  ankiShowBack = false;
+  renderAnkiCard();
+}
+
+// Init
+loadState();
+buildTabs();
+buildPanels();
+</script>
+</body>
+</html>
